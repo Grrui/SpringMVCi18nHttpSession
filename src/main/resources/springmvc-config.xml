@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+	xmlns:p="http://www.springframework.org/schema/p" 
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+    xmlns:context="http://www.springframework.org/schema/context"  
+    xsi:schemaLocation="
+    	http://www.springframework.org/schema/beans 
+    	http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+    	http://www.springframework.org/schema/mvc 
+     	http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd 
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context-4.0.xsd " >
+
+	<!-- spring可以自动去扫描base-pack下面的包或者是子包下面的Java文，如果扫描到有Spring的相关注解类，则注册为Spring的Bean -->
+	<context:component-scan base-package="ustc.gr.InterController"/>
+		
+	<!-- 国际化 -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames" value="message"/>
+	</bean>
+	
+	<mvc:interceptors>
+		<!-- 国际化操作拦截器如果采用基于(Session/Cookie)则必须配置 -->
+		<bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+	</mvc:interceptors>
+
+	<!-- SessionLocaleResolver配置 -->
+	<bean id="localeResolver" class="org.springframework.web.servlet.i18n.SessionLocaleResolver"/>
+	
+	<!-- AcceptHeaderLocaleResolver配置，因为AcceptHeaderLocaleResolver是默认语言区域解析器，不配置也行 -->
+	<!--<bean id="localeResolver" class="org.springframework.web.servlet.i18n.AcceptHeaderLocaleResolver"/>-->
+	
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix">
+			<value>/</value>
+		</property>
+		<property name="suffix">
+			<value>.jsp</value>
+		</property>
+	</bean>
+	
+</beans>
